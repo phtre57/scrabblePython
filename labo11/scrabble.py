@@ -38,6 +38,9 @@ class Scrabble(Tk):
 
         self.indexes = {}
 
+        self.plateau = Plateau
+        self.plateau = Canvas
+
 
         self.home = Tk()
         self.home.geometry("400x400")
@@ -124,13 +127,14 @@ class Scrabble(Tk):
         #self.home.destroy()
 
     def get_click_plateau(self, eventorigin):
-        self.set_indexes()
         print(self.plateau.get_nb_pixel_case())
         event = eventorigin
-        print(event.x, event.y)
+        x = event.x // self.plateau.get_nb_pixel_case()
+        y = event.y // self.plateau.get_nb_pixel_case()
+
 
     def get_click_chevalet(self, eventorigin):
-        event = eventorigin.widget
+        print("lol")
 
 
 
@@ -179,18 +183,6 @@ class Scrabble(Tk):
             self.dictionnaire = set([x[:-1].upper() for x in f.readlines() if len(x[:-1]) > 1])
 
         self.joueur_suivant()
-        self.set_indexes()
-
-    def set_indexes(self):
-        self.pixelsJ = 0
-        self.pixelsI = 0
-        for i in range(self.plateau.DIMENSION):
-            for j in range(self.plateau.DIMENSION):
-                self.indexes.update({(j, i): (self.pixelsJ, self.pixelsI)})
-                self.pixelsJ += self.plateau.get_nb_pixel_case()
-            self.pixelsI += self.plateau.get_nb_pixel_case()
-
-        print(self.indexes)
 
 
     def mot_permis(self, mot):
