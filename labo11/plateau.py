@@ -276,7 +276,8 @@ class Plateau(Canvas):
                 if not self.cases[i][j].est_vide():
                     dessiner_jeton(self.cases[i][j].jeton_occupant, i, j, self.nb_pixels_per_case)
 
-
+    def get_nb_pixel_case(self):
+        return self.nb_pixels_per_case
 
     def redimensionner(self, event):
         new_dim = min(event.width, event.height)

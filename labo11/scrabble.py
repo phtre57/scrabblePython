@@ -36,13 +36,7 @@ class Scrabble(Tk):
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
-        self.plateau = ""
-
-        self.chevalet = ""
-
-        self.plateau = ""
-
-        self.chevalet = ""
+        self.indexes = {}
 
 
         self.home = Tk()
@@ -69,6 +63,7 @@ class Scrabble(Tk):
         # button_destroy.grid()
         self.home.wait_window()
         button_confirm.wait_variable(self.home)
+        self.home.destroy()
 
         #ajout attribut pour nbr joueur et langue
 
@@ -129,17 +124,13 @@ class Scrabble(Tk):
         #self.home.destroy()
 
     def get_click_plateau(self, eventorigin):
-        global x, y
-        x = eventorigin.x
-        y = eventorigin.y
-        print(x, y)
+        self.set_indexes()
+        print(self.plateau.get_nb_pixel_case())
+        event = eventorigin
+        print(event.x, event.y)
 
     def get_click_chevalet(self, eventorigin):
-        global x, y
-        x = eventorigin.x
-        y = eventorigin.y
-        print(x, y)
-    #def choisir jeton:
+        event = eventorigin.widget
 
 
 
@@ -188,8 +179,18 @@ class Scrabble(Tk):
             self.dictionnaire = set([x[:-1].upper() for x in f.readlines() if len(x[:-1]) > 1])
 
         self.joueur_suivant()
+        self.set_indexes()
 
+    def set_indexes(self):
+        self.pixelsJ = 0
+        self.pixelsI = 0
+        for i in range(self.plateau.DIMENSION):
+            for j in range(self.plateau.DIMENSION):
+                self.indexes.update({(j, i): (self.pixelsJ, self.pixelsI)})
+                self.pixelsJ += self.plateau.get_nb_pixel_case()
+            self.pixelsI += self.plateau.get_nb_pixel_case()
 
+        print(self.indexes)
 
 
     def mot_permis(self, mot):
